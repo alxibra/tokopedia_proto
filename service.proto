@@ -3,7 +3,7 @@ syntax="proto3";
 package tokopedia;
 option go_package = ".;tokopedia";
 import "access_token_request.proto";
-import "access_token.proto"
+import "access_token.proto";
 
 service Service {
   rpc GetAccessToken(AccessTokenRequest) returns(AccessToken) {}
