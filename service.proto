@@ -4,7 +4,10 @@ package tokopedia;
 option go_package = ".;tokopedia";
 import "access_token_request.proto";
 import "access_token.proto";
+import "order.proto";
+import "order_request.proto";
 
 service Service {
   rpc GetAccessToken(AccessTokenRequest) returns(AccessToken) {}
+  rpc GetOrder(OrderRequest) returns(Order) {}
 }

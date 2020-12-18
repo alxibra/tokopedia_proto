@@ -18,6 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ServiceClient interface {
 	GetAccessToken(ctx context.Context, in *AccessTokenRequest, opts ...grpc.CallOption) (*AccessToken, error)
+	GetOrder(ctx context.Context, in *OrderRequest, opts ...grpc.CallOption) (*Order, error)
 }
 
 type serviceClient struct {
@@ -37,11 +38,21 @@ func (c *serviceClient) GetAccessToken(ctx context.Context, in *AccessTokenReque
 	return out, nil
 }
 
+func (c *serviceClient) GetOrder(ctx context.Context, in *OrderRequest, opts ...grpc.CallOption) (*Order, error) {
+	out := new(Order)
+	err := c.cc.Invoke(ctx, "/tokopedia.Service/GetOrder", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ServiceServer is the server API for Service service.
 // All implementations must embed UnimplementedServiceServer
 // for forward compatibility
 type ServiceServer interface {
 	GetAccessToken(context.Context, *AccessTokenRequest) (*AccessToken, error)
+	GetOrder(context.Context, *OrderRequest) (*Order, error)
 	mustEmbedUnimplementedServiceServer()
 }
 
@@ -51,6 +62,9 @@ type UnimplementedServiceServer struct {
 
 func (UnimplementedServiceServer) GetAccessToken(context.Context, *AccessTokenRequest) (*AccessToken, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAccessToken not implemented")
+}
+func (UnimplementedServiceServer) GetOrder(context.Context, *OrderRequest) (*Order, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOrder not implemented")
 }
 func (UnimplementedServiceServer) mustEmbedUnimplementedServiceServer() {}
 
@@ -83,6 +97,24 @@ func _Service_GetAccessToken_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Service_GetOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ServiceServer).GetOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/tokopedia.Service/GetOrder",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ServiceServer).GetOrder(ctx, req.(*OrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Service_ServiceDesc is the grpc.ServiceDesc for Service service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -93,6 +125,10 @@ var Service_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAccessToken",
 			Handler:    _Service_GetAccessToken_Handler,
+		},
+		{
+			MethodName: "GetOrder",
+			Handler:    _Service_GetOrder_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
