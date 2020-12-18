@@ -1,0 +1,10 @@
+syntax="proto3";
+
+package tokopedia;
+option go_package = ".;tokopedia";
+
+message AccessToken {
+  string access_token = 1;
+  uint32 expires_in = 2;
+}
+

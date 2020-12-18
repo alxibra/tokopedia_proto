@@ -1,0 +1,9 @@
+syntax="proto3";
+
+package tokopedia;
+option go_package = ".;tokopedia";
+
+message AccessTokenRequest {
+  string client_id = 1;
+  string client_secret = 2;
+}
