@@ -9,7 +9,7 @@ message Order {
 	message Data {
 	  uint64 order_id = 1;
 		string invoice_number = 2;
-		OrderInfo order =3;
+		OrderInfo order_info =3;
     string create_time = 4;
     ShipmentFulfillment shipment_fulfillment = 5;
     BuyerInfo buyer_info = 6;
@@ -27,15 +27,13 @@ message Order {
     }
 
     message BuyerInfo {
-      string buyer_email = 1;
+      string buyer_phone = 1;
     }
 
 		message OrderInfo {
-      uint64 shipping_price = 1;
-      uint64 second_insurance = 2;
-      Destination destination = 3;
-      ShippingInfo shipping_info = 4;
-      repeated OrderDetail order_detail = 5;
+      Destination destination = 1;
+      ShippingInfo shipping_info = 2;
+      repeated OrderDetail order_detail = 3;
 
       message OrderDetail {
         uint64 product_id = 1;
