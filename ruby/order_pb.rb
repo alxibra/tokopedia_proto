@@ -48,6 +48,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :shipping_price, :uint64, 3
       optional :second_insurance, :uint64, 4
       optional :awb, :string, 5
+      optional :insurance_price, :uint64, 6
     end
     add_message "tokopedia.Order.Data.OrderInfo.Destination" do
       optional :receiver_name, :string, 1
