@@ -42,7 +42,7 @@ message Order {
         uint32 quantity = 4;
         uint32 quantity_deliver = 5;
         uint32 quantity_reject = 6;
-        uint32 sku = 7;
+        string sku = 7;
       }
 
       message ShippingInfo {
